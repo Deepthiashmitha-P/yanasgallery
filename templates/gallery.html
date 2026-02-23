@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yana's Gallery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Yana's Gallery</div>
+    <nav>
+        <a href="/">Gallery</a>
+        <button onclick="toggleDark()" class="dark-toggle">🌙</button>
+    </nav>
+</header>
+
+<section class="gallery-header">
+    <h1>Art Collection</h1>
+    <p>Explore original paintings.</p>
+</section>
+
+<!-- SEARCH -->
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search paintings...">
+</div>
+
+<section class="gallery-section">
+    <div class="gallery-grid">
+
+        {% if products|length == 0 %}
+            <div class="no-products">
+                <p>No paintings available yet.</p>
+            </div>
+        {% endif %}
+
+        {% for product in products %}
+        <div class="gallery-item">
+            <div class="image-container">
+
+                <img src="{{ url_for('static', filename='uploads/' + product[4]) }}"
+                     onclick="openModal(this.src)">
+
+                {% if product[3]|int == 0 %}
+                <div class="sold-badge">SOLD</div>
+                {% endif %}
+
+                <div class="overlay">
+                    <h3>{{ product[1] }}</h3>
+                    <p class="price">₹{{ product[2] }}</p>
+
+                    {% if product[3]|int > 0 %}
+                        <a href="https://wa.me/{{ contact[1] }}?text=Hello, I am interested in {{ product[1] }}">
+                            <button class="enquire-btn">Enquire</button>
+                        </a>
+                    {% else %}
+                        <button class="sold-btn" disabled>Unavailable</button>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+<footer class="footer">
+    <p>📞 WhatsApp: {{ contact[1] }}</p>
+    <p>📷 <a href="{{ contact[2] }}" target="_blank">Instagram</a></p>
+    <p>📧 {{ contact[3] }}</p>
+</footer>
+
+<!-- IMAGE MODAL -->
+<div id="imageModal" class="modal" onclick="closeModal()">
+    <img id="modalImage">
+</div>
+
+<script>
+/* Image Modal */
+function openModal(src) {
+    document.getElementById("imageModal").style.display = "flex";
+    document.getElementById("modalImage").src = src;
+}
+
+function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+}
+
+/* Search */
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let value = this.value.toLowerCase();
+    let items = document.querySelectorAll(".gallery-item");
+
+    items.forEach(function(item) {
+        let text = item.innerText.toLowerCase();
+        item.style.display = text.includes(value) ? "block" : "none";
+    });
+});
+
+/* Dark Mode */
+function toggleDark() {
+    document.body.classList.toggle("dark-mode");
+}
+</script>
+
+</body>
+</html>
