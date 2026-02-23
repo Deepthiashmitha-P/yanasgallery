@@ -67,16 +67,29 @@
     </div>
 
     <!-- UPDATE CONTACT DETAILS -->
-    <div class="admin-card">
-        <h2>Update Contact Details</h2>
+<div class="admin-card">
+    <h2>Update Contact Details</h2>
 
-        <form method="POST" action="/update_contact">
-            <input type="text" name="whatsapp" placeholder="WhatsApp (with country code)" value="{{ contact[1] }}" required>
-            <input type="text" name="instagram" placeholder="Instagram URL" value="{{ contact[2] }}" required>
-            <input type="email" name="email" placeholder="Email" value="{{ contact[3] }}" required>
-            <button type="submit" class="admin-btn">Update Contact</button>
-        </form>
-    </div>
+    <form method="POST" action="/update_contact">
+        <input type="text" name="phone1"
+               value="{{ contact[1] }}"
+               placeholder="Primary Phone (without +91)" required>
+
+        <input type="text" name="phone2"
+               value="{{ contact[2] }}"
+               placeholder="Secondary Phone (without +91)" required>
+
+        <input type="text" name="instagram"
+               value="{{ contact[3] }}" required>
+
+        <input type="email" name="email"
+               value="{{ contact[4] }}" required>
+
+        <button type="submit" class="admin-btn">
+            Update Contact
+        </button>
+    </form>
+</div>
 
 </section>
 
