@@ -19,6 +19,7 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
+    # PRODUCTS
     c.execute("""
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,6 +30,7 @@ def init_db():
         )
     """)
 
+    # ADMIN
     c.execute("""
         CREATE TABLE IF NOT EXISTS admin (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,26 +39,31 @@ def init_db():
         )
     """)
 
+    # CONTACT (2 numbers)
     c.execute("""
         CREATE TABLE IF NOT EXISTS contact (
             id INTEGER PRIMARY KEY,
-            whatsapp TEXT,
+            phone1 TEXT,
+            phone2 TEXT,
             instagram TEXT,
             email TEXT
         )
     """)
 
+    # Default admin
     c.execute("SELECT * FROM admin")
     if not c.fetchone():
         c.execute("INSERT INTO admin (username, password) VALUES (?, ?)",
                   ("admin", "admin123"))
 
+    # Default contact
     c.execute("SELECT * FROM contact WHERE id=1")
     if not c.fetchone():
         c.execute("""
-            INSERT INTO contact (id, whatsapp, instagram, email)
-            VALUES (1, ?, ?, ?)
-        """, ("919876543210", "https://instagram.com", "example@gmail.com"))
+            INSERT INTO contact (id, phone1, phone2, instagram, email)
+            VALUES (1, ?, ?, ?, ?)
+        """, ("9876543210", "9123456780",
+              "https://instagram.com", "example@gmail.com"))
 
     conn.commit()
     conn.close()
@@ -70,19 +77,15 @@ init_db()
 def home():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-
     c.execute("SELECT * FROM products ORDER BY id DESC")
     products = c.fetchall()
-
     c.execute("SELECT * FROM contact WHERE id=1")
     contact = c.fetchone()
-
     conn.close()
-
     return render_template("gallery.html", products=products, contact=contact)
 
 
-# ---------------- STORY PAGE ----------------
+# ---------------- STORY ----------------
 @app.route("/story")
 def story():
     return render_template("story.html")
@@ -138,13 +141,13 @@ def dashboard():
     c = conn.cursor()
     c.execute("SELECT * FROM products ORDER BY id DESC")
     products = c.fetchall()
-
     c.execute("SELECT * FROM contact WHERE id=1")
     contact = c.fetchone()
-
     conn.close()
 
-    return render_template("dashboard.html", products=products, contact=contact)
+    return render_template("dashboard.html",
+                           products=products,
+                           contact=contact)
 
 
 # ---------------- EDIT PRODUCT ----------------
@@ -194,7 +197,8 @@ def update_contact():
     if "admin" not in session:
         return redirect("/admin")
 
-    whatsapp = request.form["whatsapp"]
+    phone1 = request.form["phone1"]
+    phone2 = request.form["phone2"]
     instagram = request.form["instagram"]
     email = request.form["email"]
 
@@ -202,16 +206,16 @@ def update_contact():
     c = conn.cursor()
     c.execute("""
         UPDATE contact
-        SET whatsapp=?, instagram=?, email=?
+        SET phone1=?, phone2=?, instagram=?, email=?
         WHERE id=1
-    """, (whatsapp, instagram, email))
+    """, (phone1, phone2, instagram, email))
     conn.commit()
     conn.close()
 
     return redirect("/dashboard")
 
 
-# ---------------- DELETE PRODUCT ----------------
+# ---------------- DELETE ----------------
 @app.route("/delete/<int:product_id>")
 def delete(product_id):
     if "admin" not in session:
@@ -222,7 +226,6 @@ def delete(product_id):
     c.execute("DELETE FROM products WHERE id=?", (product_id,))
     conn.commit()
     conn.close()
-
     return redirect("/dashboard")
 
 
