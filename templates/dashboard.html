@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard | Yana's Gallery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Admin Panel</div>
+    <nav>
+        <a href="/">View Site</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+
+<section class="admin-container">
+
+    <!-- ADD PAINTING -->
+    <div class="admin-card">
+        <h2>Add New Painting</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Painting Name" required>
+            <input type="number" name="price" placeholder="Price" required>
+            <input type="number" name="stock" placeholder="Stock (0 = Sold)" required>
+            <input type="file" name="image" required>
+            <button type="submit" class="admin-btn">Add Painting</button>
+        </form>
+    </div>
+
+    <!-- EXISTING PAINTINGS -->
+    <div class="admin-card">
+        <h2>Existing Paintings</h2>
+
+        {% if products|length == 0 %}
+            <p>No paintings added yet.</p>
+        {% endif %}
+
+        {% for product in products %}
+        <div class="admin-product">
+            <img src="{{ url_for('static', filename='uploads/' + product[4]) }}">
+
+            <div>
+                <h3>{{ product[1] }}</h3>
+                <p>Price: ₹{{ product[2] }}</p>
+                <p>Stock: {{ product[3] }}</p>
+
+                <a href="/delete/{{ product[0] }}">
+                    <button class="delete-btn">Delete</button>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- CHANGE ADMIN CREDENTIALS -->
+    <div class="admin-card">
+        <h2>Change Admin Credentials</h2>
+
+        <form method="POST" action="/change_credentials">
+            <input type="text" name="new_username" placeholder="New Username" required>
+            <input type="password" name="new_password" placeholder="New Password" required>
+            <button type="submit" class="admin-btn">Update Credentials</button>
+        </form>
+    </div>
+
+    <!-- UPDATE CONTACT DETAILS -->
+    <div class="admin-card">
+        <h2>Update Contact Details</h2>
+
+        <form method="POST" action="/update_contact">
+            <input type="text" name="whatsapp" placeholder="WhatsApp (with country code)" value="{{ contact[1] }}" required>
+            <input type="text" name="instagram" placeholder="Instagram URL" value="{{ contact[2] }}" required>
+            <input type="email" name="email" placeholder="Email" value="{{ contact[3] }}" required>
+            <button type="submit" class="admin-btn">Update Contact</button>
+        </form>
+    </div>
+
+</section>
+
+</body>
+</html>
