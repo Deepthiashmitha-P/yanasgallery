@@ -1,12 +1,36 @@
-<section class="story-section">
-    <div class="story-container">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Our Story | Yana's Gallery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
+<!-- HERO SECTION -->
+<section class="story-hero">
+    <div class="story-overlay">
         <h1>Our Story</h1>
+        <p>
+            Where creativity meets emotion.  
+            Where art is not duplicated.  
+            Where every piece exists only once.
+        </p>
+
+        <a href="/gallery">
+            <button class="story-btn">Explore Collection</button>
+        </a>
+    </div>
+</section>
+
+<!-- STORY CONTENT -->
+<section class="story-content">
+    <div class="story-container">
 
         <p>
             Yana’s Gallery began as a shared passion for creativity, art, and handmade craftsmanship.
-            What started as small artistic experiments among friends slowly grew into a meaningful journey —
-            a journey built on dedication and the courage to turn passion into purpose.
+            What started as small artistic experiments slowly grew into a meaningful journey —
+            a journey built on dedication, imagination, and the courage to turn passion into purpose.
         </p>
 
         <p>
@@ -33,7 +57,10 @@
             When you own a piece from Yana’s Gallery, you own something truly one of a kind.
         </p>
 
-        <h3>And this is only the beginning.</h3>
+        <h2>And this is only the beginning.</h2>
 
     </div>
 </section>
+
+</body>
+</html>
