@@ -10,19 +10,20 @@
 <header class="navbar">
     <div class="logo">Yana's Gallery</div>
     <nav>
-        <a href="/">Gallery</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/story">Our Story</a>
         <button onclick="toggleDark()" class="dark-toggle">🌙</button>
     </nav>
 </header>
 
 <section class="gallery-header">
     <h1>Art Collection</h1>
-    <p>Explore original paintings.</p>
+    <p>Explore original creations.</p>
 </section>
 
 <!-- SEARCH -->
 <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search paintings...">
+    <input type="text" id="searchInput" placeholder="Search artworks...">
 </div>
 
 <section class="gallery-section">
@@ -30,7 +31,7 @@
 
         {% if products|length == 0 %}
             <div class="no-products">
-                <p>No paintings available yet.</p>
+                <p>No items available yet.</p>
             </div>
         {% endif %}
 
@@ -50,7 +51,8 @@
                     <p class="price">₹{{ product[2] }}</p>
 
                     {% if product[3]|int > 0 %}
-                        <a href="https://wa.me/{{ contact[1] }}?text=Hello, I am interested in {{ product[1] }}">
+                        <a href="https://wa.me/91{{ contact[1] }}?text=Hello, I am interested in {{ product[1] }}"
+                           target="_blank">
                             <button class="enquire-btn">Enquire</button>
                         </a>
                     {% else %}
@@ -64,6 +66,8 @@
 
     </div>
 </section>
+
+<!-- FOOTER -->
 <footer class="footer">
     <p>📞 +91 {{ contact[1] }}</p>
     <p>📞 +91 {{ contact[2] }}</p>
@@ -77,6 +81,7 @@
 </div>
 
 <script>
+
 /* Image Modal */
 function openModal(src) {
     document.getElementById("imageModal").style.display = "flex";
@@ -102,6 +107,7 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
 function toggleDark() {
     document.body.classList.toggle("dark-mode");
 }
+
 </script>
 
 </body>
