@@ -72,9 +72,15 @@ def init_db():
 init_db()
 
 
-# ---------------- HOME ----------------
+# ---------------- HOME (Story as Landing Page) ----------------
 @app.route("/")
 def home():
+    return render_template("story.html")
+
+
+# ---------------- GALLERY PAGE ----------------
+@app.route("/gallery")
+def gallery_page():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("SELECT * FROM products ORDER BY id DESC")
@@ -85,7 +91,7 @@ def home():
     return render_template("gallery.html", products=products, contact=contact)
 
 
-# ---------------- STORY ----------------
+# ---------------- STORY PAGE ----------------
 @app.route("/story")
 def story():
     return render_template("story.html")
@@ -215,7 +221,7 @@ def update_contact():
     return redirect("/dashboard")
 
 
-# ---------------- DELETE ----------------
+# ---------------- DELETE PRODUCT ----------------
 @app.route("/delete/<int:product_id>")
 def delete(product_id):
     if "admin" not in session:
