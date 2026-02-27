@@ -75,7 +75,7 @@ init_db()
 # ---------------- HOME (SAFE REDIRECT) ----------------
 @app.route("/")
 def home():
-    return redirect("/gallery")
+    return render_template("story.html")
 
 
 # ---------------- GALLERY ----------------
@@ -212,3 +212,4 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
