@@ -39,7 +39,7 @@ def init_db():
         )
     """)
 
-    # CONTACT (2 numbers)
+    # CONTACT
     c.execute("""
         CREATE TABLE IF NOT EXISTS contact (
             id INTEGER PRIMARY KEY,
@@ -72,26 +72,30 @@ def init_db():
 init_db()
 
 
-# ---------------- HOME (Story as Landing Page) ----------------
+# ---------------- HOME (SAFE REDIRECT) ----------------
 @app.route("/")
 def home():
-    return render_template("story.html")
+    return redirect("/gallery")
 
 
-# ---------------- GALLERY PAGE ----------------
+# ---------------- GALLERY ----------------
 @app.route("/gallery")
 def gallery_page():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
+
     c.execute("SELECT * FROM products ORDER BY id DESC")
     products = c.fetchall()
+
     c.execute("SELECT * FROM contact WHERE id=1")
     contact = c.fetchone()
+
     conn.close()
+
     return render_template("gallery.html", products=products, contact=contact)
 
 
-# ---------------- STORY PAGE ----------------
+# ---------------- STORY ----------------
 @app.route("/story")
 def story():
     return render_template("story.html")
@@ -145,56 +149,18 @@ def dashboard():
 
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
+
     c.execute("SELECT * FROM products ORDER BY id DESC")
     products = c.fetchall()
+
     c.execute("SELECT * FROM contact WHERE id=1")
     contact = c.fetchone()
+
     conn.close()
 
     return render_template("dashboard.html",
                            products=products,
                            contact=contact)
-
-
-# ---------------- EDIT PRODUCT ----------------
-@app.route("/edit/<int:product_id>", methods=["GET", "POST"])
-def edit_product(product_id):
-    if "admin" not in session:
-        return redirect("/admin")
-
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-
-    if request.method == "POST":
-        name = request.form["name"]
-        price = request.form["price"]
-        stock = request.form["stock"]
-        image = request.files["image"]
-
-        if image and image.filename != "":
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            c.execute("""
-                UPDATE products
-                SET name=?, price=?, stock=?, image=?
-                WHERE id=?
-            """, (name, price, stock, filename, product_id))
-        else:
-            c.execute("""
-                UPDATE products
-                SET name=?, price=?, stock=?
-                WHERE id=?
-            """, (name, price, stock, product_id))
-
-        conn.commit()
-        conn.close()
-        return redirect("/dashboard")
-
-    c.execute("SELECT * FROM products WHERE id=?", (product_id,))
-    product = c.fetchone()
-    conn.close()
-
-    return render_template("edit_product.html", product=product)
 
 
 # ---------------- UPDATE CONTACT ----------------
@@ -215,6 +181,7 @@ def update_contact():
         SET phone1=?, phone2=?, instagram=?, email=?
         WHERE id=1
     """, (phone1, phone2, instagram, email))
+
     conn.commit()
     conn.close()
 
@@ -232,6 +199,7 @@ def delete(product_id):
     c.execute("DELETE FROM products WHERE id=?", (product_id,))
     conn.commit()
     conn.close()
+
     return redirect("/dashboard")
 
 
@@ -239,7 +207,7 @@ def delete(product_id):
 @app.route("/logout")
 def logout():
     session.pop("admin", None)
-    return redirect("/")
+    return redirect("/gallery")
 
 
 if __name__ == "__main__":
