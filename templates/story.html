@@ -1,65 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Our Story | Yana's Gallery</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>Our Story | Yana's Gallery</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
-<!-- HERO SECTION -->
-<section class="story-hero">
-    <div class="story-overlay">
-        <h1>Our Story</h1>
-        <p>
-            Where creativity meets emotion.  
-            Where art is not duplicated.  
-            Where every piece exists only once.
-        </p>
+<header class="navbar">
+<div class="logo">Yana's Gallery</div>
 
-        <a href="/gallery">
-            <button class="story-btn">Explore Collection</button>
-        </a>
-    </div>
+<nav>
+<a href="/gallery">Gallery</a>
+<a href="/story">Our Story</a>
+</nav>
+</header>
+
+
+<section class="story-hero">
+
+<div class="story-overlay">
+
+<h1>Our Story</h1>
+
+<p class="hero-text">
+Where creativity meets emotion.  
+Where art is not duplicated.  
+Where every piece exists only once.
+</p>
+
+<a href="/gallery">
+<button class="story-btn">Explore Collection</button>
+</a>
+
+</div>
+
 </section>
 
-<!-- STORY CONTENT -->
+
 <section class="story-content">
-    <div class="story-container">
 
-        <p>
-            Yana’s Gallery began as a shared passion for creativity, art, and handmade craftsmanship.
-            What started as small artistic experiments slowly grew into a meaningful journey —
-            a journey built on dedication, imagination, and the courage to turn passion into purpose.
-        </p>
+<div class="story-container">
 
-        <p>
-            At Yana’s Gallery, every creation is unique.
-            From expressive canvas paintings to intricately designed Kundan and thread-work bangles,
-            and hand-painted sarees that blend tradition with elegance —
-            each piece is crafted carefully and exists as a single original creation.
-        </p>
+<p>
+Yana’s Gallery began as a shared passion for creativity, art, and handmade craftsmanship.
+What started as small artistic experiments slowly grew into a meaningful journey —
+a journey built on dedication, imagination, and the courage to turn passion into purpose.
+</p>
 
-        <h3>
-            We do not mass-produce.<br>
-            We do not duplicate emotions.<br>
-            Every product is made only once.
-        </h3>
+<p>
+From expressive canvas paintings to intricately designed Kundan and thread-work bangles,
+and hand-painted sarees that blend tradition with elegance —
+each piece is crafted carefully and exists as a single original creation.
+</p>
 
-        <p>
-            Because art is personal.
-            Art carries emotion.
-            And emotion cannot be copied.
-        </p>
+<div class="highlight-text">
 
-        <p>
-            Each creation tells its own story — made with patience, care, and intention.
-            When you own a piece from Yana’s Gallery, you own something truly one of a kind.
-        </p>
+<p>We do not mass-produce.</p>
+<p>We do not duplicate emotions.</p>
+<p>Every product is made only once.</p>
 
-        <h2>And this is only the beginning.</h2>
+</div>
 
-    </div>
+<p>
+Each creation tells its own story — made with patience, care, and intention.
+When you own a piece from Yana’s Gallery, you own something truly one of a kind.
+</p>
+
+<h2>And this is only the beginning.</h2>
+
+</div>
+
 </section>
 
 </body>
